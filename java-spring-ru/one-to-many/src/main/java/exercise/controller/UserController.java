@@ -1,22 +1,16 @@
 package exercise.controller;
 
+import exercise.dto.UserCreateDTO;
+import exercise.dto.UserDTO;
+import exercise.exception.ResourceNotFoundException;
 import exercise.mapper.UserMapper;
+import exercise.repository.UserRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import java.util.List;
+import org.springframework.web.bind.annotation.*;
 
-import exercise.repository.UserRepository;
-import exercise.dto.UserDTO;
-import exercise.dto.UserCreateDTO;
-import exercise.exception.ResourceNotFoundException;
+import java.util.List;
 
 @RestController
 @RequestMapping("/users")
@@ -39,7 +33,7 @@ public class UserController {
     @GetMapping(path = "/{id}")
     public UserDTO show(@PathVariable long id) {
 
-        var user =  userRepository.findById(id)
+        var user = userRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("User with id " + id + " not found"));
         var userDto = userMapper.map(user);
         return userDto;
